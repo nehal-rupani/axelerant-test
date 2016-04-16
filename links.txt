@@ -1,0 +1,4 @@
+https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_form_FORM_ID_alter/7
+https://api.drupal.org/api/drupal/developer!topics!forms_api_reference.html/7
+http://drupal.stackexchange.com/questions/44323/adding-form-placeholders-to-text-input-fields
+http://drupal.stackexchange.com/questions/123719/drupal-function-to-convert-node-into-json-object
