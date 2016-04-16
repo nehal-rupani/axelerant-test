@@ -1,0 +1,5 @@
+name = Site information alter
+description = Site information alter
+core = 7.x
+version = 1.1 alpha release
+package = Axelerant

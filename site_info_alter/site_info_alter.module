@@ -1,0 +1,67 @@
+<?php
+
+/*
+* implementation of hook_menu()
+*
+*/
+
+function site_info_alter_menu() {
+	
+	$items['page_json/%/%'] = array(
+		'title' => 'Parse Json',
+		'page callback' => 'parse_json',
+		'page arguments' => array(1,2),
+		'access arguments' => array('access content'),
+    );
+
+
+	return $items;
+}
+
+
+function parse_json($site_api_key, $nid) {
+
+	$node_object = node_load($nid);
+
+	if($site_api_key == variable_get('siteapikey') && count($node_object) > 0 && $node_object->type == "page") {
+
+		echo drupal_json_output($node_object);
+	}
+	
+	else {
+		return drupal_access_denied();
+	}
+
+}
+
+
+/*
+ * implementation of hook_form_alter()
+ */
+
+function site_info_alter_form_system_site_information_settings_alter(&$form, &$form_state){
+    
+    $site_api_key = t('No API Key yet');
+
+    if(variable_get('siteapikey') != ""){
+    	$site_api_key = variable_get('siteapikey');
+    }
+
+    $form['site_information']['site_api_key'] = array(
+    	
+    	'#title' => t('Site API Key'),
+    	'#type' => 'textfield',
+    	'#default_value' => $site_api_key
+    	
+    );
+
+    $form['#submit'][] = 'submit_api_key';
+    $form['actions']['submit']['#value'] = t('Update Configuration');
+
+}
+
+function submit_api_key(&$form, &$form_state){
+
+	variable_set('siteapikey', $form_state['values']['site_api_key']);
+	drupal_set_message('Site API Key is saved with value ' . $form_state['values']['site_api_key']);
+}
